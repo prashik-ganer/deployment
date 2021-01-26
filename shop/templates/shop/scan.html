@@ -1,0 +1,53 @@
+{% comment %} {% extends 'shop/basic.html' %} {% endcomment %}
+
+{% comment %} {% block trackeractive %}active{% endblock trackeractive %}
+
+{% block title %} SCANNER - NETWORK THEORY{% endblock %} {% endcomment %}
+
+<style>
+.video-container{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+</style>
+
+
+
+<body>
+    
+<div class="video-container">
+    <video id="video" autoplay muted></video>
+</div>
+
+
+
+</body>
+
+
+<script>
+
+    const video = document.getElementById('video')
+    
+    
+    function startVideo(){
+        navigator.getUserMedia(
+            {
+                video: {} 
+            },
+            stream => video.srcObject = stream,
+            err => console.error(err)
+        )
+    }
+    
+    startVideo()
+    
+    </script>
+
+
+{% block js %}
+{% endblock %}

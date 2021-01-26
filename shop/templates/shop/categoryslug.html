@@ -1,0 +1,225 @@
+{% include 'shop/basic.html' %}
+{% block title %}{% endblock title %}
+
+{% block css %}
+<style>
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 25%;
+  padding: 5px;
+}
+
+.button-container{
+  display:flex;
+}
+
+
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 500px) {
+  .column {
+    width: 100%;
+  }
+}
+
+</style>
+{% endblock css %}
+
+{% block body %}
+
+
+<div class="container row mt-3 mx-auto">
+{% for i in separateProds %}
+    <div class=" card-deck d-flex flex-column my-2 column">
+      <div class="card d-inline"> 
+            <img src="{{i.image.url}}" class="card-img-top" alt="..." style="object-fit:contain">
+            <div class="card-body p-3">
+              <a href="/shop/products/prod={{i.id}}"><h5 class="card-title" id="namepr{{i.id}}" style="font-size: medium;">{{i.product_name}}</h5></a>
+              <p class="card-text my-1" style="font-size: small;">{{i.desc| slice:"0:150"}}...</p>
+              <p class="card-text my-1" style="font-size: small;"><b>Price : </b><span  id="pricepr{{i.id}}">{{i.price}}</span></p>
+              <p class="card-text"><small class="text-muted">Publication Date: {{i.pub_date}}</small></p>
+            </div>
+                <div class="div mx-auto button-container p-0 mb-2">
+                    <span id="divpr{{i.id}}" class="divpr">
+                    {% comment %} <button id="pr{{i.id}}" class="btn btn-danger cart p-1" style><img src="/media/carts.svg" alt="" style="width:35%;"></button> {% endcomment %}
+                    <button id="pr{{i.id}}" class="btn btn-danger cart py-1 px-3 mx-1" style>
+                        <i class="fa fa-shopping-cart fa-sm"></i> 
+                    
+                    </button>
+                    </span>
+                    <a href="/shop/products/prod={{i.id}}"><button id="qv{{i.id}}"
+                        class="btn btn-primary cart py-1 px-2 mx-1">QuickView</button></a>
+                </div>
+      </div>
+    </div>
+
+{% endfor %}
+
+</div>
+
+
+{% include 'shop/footer.html' %}
+
+
+{% endblock body %}
+
+
+
+{% block js %}
+<script>
+
+
+if (user != 'AnonymousUser') {
+        var received = "{{cart|escapejs}}"
+        console.log("received : ",received)
+        var database_cart = JSON.parse("{{cart|escapejs}}")
+        localStorage.setItem('cart', JSON.stringify(database_cart));
+
+        //console.log(typeof database_cart)
+        console.log("parsed database_cart : ",database_cart)
+      }
+
+
+if (localStorage.getItem('cart') == null) {
+    localStorage.setItem('cart', JSON.stringify(database_cart));
+  } else {
+    console.log("internal")
+    console.log(localStorage.getItem('cart'))
+    cart = JSON.parse(localStorage.getItem('cart'));
+    console.log(cart)
+     updateCart(cart);
+  }
+
+  function prime(){
+    console.log('USER: ', user)
+      if (user == 'AnonymousUser') {
+        console.log("User is not authenticated!")
+        //localStorage.clear(cart)
+      }
+      else {
+        updateUserOrder();
+      }
+  }
+
+  function updateUserOrder(qty, name, price){
+    console.log("User is logged in, sending data......")
+
+    var url = '/shop/update_item/'
+
+    fetch(url,{
+      method: 'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'X-CSRFToken':csrftoken,
+      },
+      body:JSON.stringify(cart)
+    })
+
+
+    // To get the response from the view, The following blocks should be added
+    .then((response)=>{
+      return response.json()
+    })
+
+    .then((data)=>{
+      console.log('data', data)
+    })
+  }
+
+
+  $('.divpr').on('click', 'button.cart', function () {
+    console.log('clicked');
+
+    var idstr = this.id.toString();
+    console.log("idstr : ", idstr)
+    if (cart[idstr] != undefined) {
+      qty = cart[idstr][0] + 1;
+      cart[idstr] = [qty, name];
+
+
+
+    } 
+    else {
+    console.log("else")
+    qty = 1;
+    name = document.getElementById('name' + idstr).innerHTML;
+    console.log('name : ', name)
+    price = document.getElementById('price' + idstr).innerHTML;
+    console.log('price : ', price)
+    cart[idstr] = [qty, name, parseInt(price)];
+      
+    }
+    prime(); 
+
+      document.getElementById('div' + idstr).innerHTML = "<button id='minus" + idstr + "' class='btn btn-danger minus'>-</button> <span id='val" + idstr + "''>" + cart[idstr][0] + "</span> <button id='plus" + idstr + "' class='btn btn-danger plus'> + </button>";
+    
+   updateCart(cart); 
+
+  });
+
+  function updateCart(cart) {
+    // console.log(cart);
+
+    sum = 0;
+    console.log(cart)
+    //for (var i; i<cart.length; i++){
+    for (var item in cart) {
+        //console.log("idstr next  :::::", idstr)
+        console.log("item : ", item)
+        console.log("sum before", sum)
+        sum = sum + cart[item][0];
+      console.log("sum later", sum)
+
+      {% comment %} document.getElementById('div' + item).innerHTML = "<button id='minus" + item + "' class='btn btn-primary minus'>-</button> <span id='val" + item + "''>" + cart[item][0] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>"; {% endcomment %}
+
+      //if (item == 'div'+item){
+      //  document.getElementById('div' + item).innerHTML = "<button id='minus" + item + "' class='btn btn-primary minus'>-</button> <span id='val" + item + "''>" + cart[item][0] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
+      //}
+    }
+     localStorage.setItem('cart', JSON.stringify(cart));
+     localStorage.setItem('database_cart', JSON.stringify(database_cart));
+    //console.log("stringify,", cart)
+    //console.log("stringify,", database_cart)
+    // document.getElementById('cart').innerHTML = sum;
+    // document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    console.log(cart);
+
+    prime();
+    
+    // updatePopover(cart);
+
+  }
+
+  // If plus or minus button is clicked, change the cart as well as the display value
+  $('.divpr').on("click", "button.minus", function () {
+    a = this.id.slice(7,);
+    cart['pr' + a][0] = cart['pr' + a][0] - 1;
+    cart['pr' + a][0] = Math.max(0, cart['pr' + a][0]);
+
+    if (cart['pr' + a][0] == 0) {
+      document.getElementById('divpr' + a).innerHTML = '<button id="pr' + a + '" class="btn btn-danger cart"><i class="fa fa-shopping-cart fa-sm"></i></button>'
+      delete cart['pr' + a];
+    }
+    
+    else {
+      document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+      prime();
+    }
+    updateCart(cart);
+
+
+  });
+  $('.divpr').on("click", "button.plus", function () {
+    a = this.id.slice(6,);
+    cart['pr' + a][0] = cart['pr' + a][0] + 1;
+    document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+    prime();
+    updateCart(cart);
+  });
+
+
+</script>
+{% endblock js %}

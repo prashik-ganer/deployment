@@ -1,0 +1,45 @@
+{% extends 'seller/basic.html' %}
+{% load static %}
+
+{% block css %}
+ .card {
+    width: 100%;
+    height: fit-content;
+    }
+
+{% endblock css %}
+
+{% block body %}
+
+<div class="container mt-4 d-flex justify-content-center">
+<br>
+<div class="row">
+    <col-md-12>
+        <div class="card card-body">
+        {% load crispy_forms_tags %}
+           <form action="" method="POST">
+            {% csrf_token %}
+            {{form | crispy}}
+                <input type="submit" name="submit">
+            </form>
+
+        </div>
+    </col-md-12>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock body %}
+
+{% block js %}
+{% endblock js %}
