@@ -183,7 +183,7 @@ def contact(request):
         if len(name)<2 or len(email)<2 or len(phone)<2 or len(desc)<2:
             messages.error(request, "Please fill the form correctly!")
         else:
-            contact = Contact(name=name, email=email, phone=phone, desc=desc)
+            contact = Contact(name=name, email=email, phone_number=phone, desc=desc)
             contact.save()
             messages.success(request, "Thanks for your valuable feedback. We will get back to you soon.")
     # return render(request, 'shop/contact.html', {'thank': thank})
@@ -232,7 +232,7 @@ def checkout(request):
             phone = request.POST.get('inputPhone')
             print("amount : ", amount)
             print("amount : ", type(amount))
-            order = Orders(customer=name, items_json=items_json , amount=amount, name=name, email=email, phone=phone, address=address, zip_code=zip_code, mode=mode)
+            order = Orders(customer=name, items_json=items_json , amount=amount, name=name, email=email, phone_number=phone, address=address, zip_code=zip_code, mode=mode)
             order.save()
 
 
@@ -282,8 +282,8 @@ def checkout(request):
             # print("sample :", string_sample)
             big_code = pyqrcode.create(sample, error='L', version=15, mode='binary')
             image_name = id
-            # image_qrcode = big_code.png(f'media/qrcode/{id}.png', scale=3, module_color=[0, 0, 0], background=[0xff, 0xff, 0xcc])
-            # order.order_qr = f"media/qrcode/{id}.png"
+            image_qrcode = big_code.png(f'media/qrcode/{id}.png', scale=3, module_color=[0, 0, 0], background=[0xff, 0xff, 0xcc])
+            order.order_qr = f"media/qrcode/{id}.png"
 
             cloudinary.config(cloud_name=env("CLOUD_NAME"),api_key=env("API_KEY"), api_secret=env("API_SECRET_CLOUDINARY"))
             cloudinary.uploader.upload(f"media/qrcode/{id}.png",public_id = f'{id}', folder="media/qrcode")
@@ -323,7 +323,7 @@ def checkout(request):
             mode = request.POST.get('mode', '')
 
             
-            order = Orders(items_json=items_json, amount=amount , name=name, email=email, phone=phone, address=address, zip_code=zip_code, mode=mode)
+            order = Orders(items_json=items_json, amount=amount , name=name, email=email, phone_number=phone, address=address, zip_code=zip_code, mode=mode)
             order.save()
 
             update = OrderUpdate(order_id=order.order_id, update_desc="The order has been placed")
@@ -358,8 +358,8 @@ def checkout(request):
             # file1.write("\n")          
             big_code = pyqrcode.create(sample, error='L', version=15, mode='binary')
             image_name = id
-            # image_qrcode = big_code.png(f'media/qrcode/{id}.png', scale=3, module_color=[0, 0, 0], background=[0xff, 0xff, 0xcc])
-            # order.order_qr = f"media/qrcode/{id}.png"
+            image_qrcode = big_code.png(f'media/qrcode/{id}.png', scale=3, module_color=[0, 0, 0], background=[0xff, 0xff, 0xcc])
+            order.order_qr = f"media/qrcode/{id}.png"
             cloudinary.config(cloud_name=env("CLOUD_NAME"),api_key=env("API_KEY"), api_secret=env("API_SECRET_CLOUDINARY"))
             cloudinary.uploader.upload(f"media/qrcode/{id}.png",public_id = f'{id}', folder="media/qrcode")
             # ---------------------------------------------------------------------------------------------------
