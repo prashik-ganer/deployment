@@ -164,14 +164,10 @@ def scan(request):
 
 
 def about(request):
-    big_code = pyqrcode.create("sample1", error='L', version=15, mode='binary')
-    image_qrcode = big_code.png(f'media/qrcode/sample1.png', scale=3, module_color=[0, 0, 0], background=[0xff, 0xff, 0xcc])
-    print("image_qrcode  ::   ", type(image_qrcode))
-    context = {'image_qrcode':image_qrcode}
     # cloudinary.config(cloud_name='dbvh7sfop',api_key='773496946691131', api_secret='JZ8lR-OYtXZAOnhkCsnsEYoh70g')
     # cloudinary.uploader.upload("media/qrcode/sample1.png",public_id = 'sample1', folder="media/qrcode")
     # if request.method=='POST':
-    return render(request, 'shop/about.html', context)
+    return render(request, 'shop/about.html')
 
 def contact(request):
     thank = False
@@ -286,8 +282,8 @@ def checkout(request):
             # print("sample :", string_sample)
             big_code = pyqrcode.create(sample, error='L', version=15, mode='binary')
             image_name = id
-            image_qrcode = big_code.png(f'media/qrcode/{id}.png', scale=3, module_color=[0, 0, 0], background=[0xff, 0xff, 0xcc])
-            order.order_qr = f"media/qrcode/{id}.png"
+            # image_qrcode = big_code.png(f'media/qrcode/{id}.png', scale=3, module_color=[0, 0, 0], background=[0xff, 0xff, 0xcc])
+            # order.order_qr = f"media/qrcode/{id}.png"
 
             cloudinary.config(cloud_name=env("CLOUD_NAME"),api_key=env("API_KEY"), api_secret=env("API_SECRET_CLOUDINARY"))
             cloudinary.uploader.upload(f"media/qrcode/{id}.png",public_id = f'{id}', folder="media/qrcode")
@@ -362,8 +358,8 @@ def checkout(request):
             # file1.write("\n")          
             big_code = pyqrcode.create(sample, error='L', version=15, mode='binary')
             image_name = id
-            image_qrcode = big_code.png(f'media/qrcode/{id}.png', scale=3, module_color=[0, 0, 0], background=[0xff, 0xff, 0xcc])
-            order.order_qr = f"media/qrcode/{id}.png"
+            # image_qrcode = big_code.png(f'media/qrcode/{id}.png', scale=3, module_color=[0, 0, 0], background=[0xff, 0xff, 0xcc])
+            # order.order_qr = f"media/qrcode/{id}.png"
             cloudinary.config(cloud_name=env("CLOUD_NAME"),api_key=env("API_KEY"), api_secret=env("API_SECRET_CLOUDINARY"))
             cloudinary.uploader.upload(f"media/qrcode/{id}.png",public_id = f'{id}', folder="media/qrcode")
             # ---------------------------------------------------------------------------------------------------
