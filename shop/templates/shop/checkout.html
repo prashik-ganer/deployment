@@ -23,6 +23,9 @@
         </nav>
       </div>
     </div>
+      <div class="container d-flex flex-row-reverse ">
+      <div class="btn btn-primary clear-cart-btn" onclick="clearCart()"style=""><b>Clear Cart</b></div>
+      </div>
     
 
     <div class="container">
@@ -35,7 +38,7 @@
             <h5 class="mb-0">
               <button class="btn btn-link" data-toggle="collapse" data-target="#collapseExample1"
                 aria-expanded="false">
-                Pickup
+               <b> PICKUP </b>
               </button>
             </h5>
           </div>
@@ -100,7 +103,7 @@
             <button class="btn btn-link " data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" 
               aria-controls="collapseExample2">
 
-              Delivery
+             <b> DELIVERY</b>
             </button>
           </h5>
         </div>
@@ -168,6 +171,7 @@
         </div>
       </div>
 
+
       <!-- <form action="/radio" method='get'>
             <div class="btn-group btn-group-toggle d-inline" data-toggle="buttons">
               <label id="pickup" class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" aria-controls="collapseExample">
@@ -225,6 +229,20 @@
 
 
   }
+
+
+
+
+
+  // Clear Cart Function
+  function clearCart() {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    localStorage.clear();
+    cart = {};
+  }
+
+
+
 
 
   console.log(cart);

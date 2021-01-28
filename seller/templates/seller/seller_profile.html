@@ -211,26 +211,26 @@
 						<td class="customer-td"><b>{{order_item.name}}</b></td>
 						<td class="orderId-td">{{order_item.order_id}}</td>
 						<td class="products-td">
-						{% comment %} <div class="products-list">
+						 {% comment %} <div class="products-list">
 							<ul class="list-group " id="items_json{{order_item.order_id}}" >
 								<!-- VERY IMPORTANT line to display cart items on checkout page (Also id="items" => helps in triggering <ul>....</ul> to display cart items on checkout page)  -->
 								
 							</ul>
-						</div> {% endcomment %}
+						</div>  {% endcomment %}
 						<div class="products-btn">
 						
-						<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
-
-						<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-							<div class="modal-dialog modal-lg">
-								<div class="modal-content">
-								<ul class="list-group " id="items_json{{order_item.order_id}}" >
-							<!-- VERY IMPORTANT line to display cart items on checkout page (Also id="items" => helps in triggering <ul>....</ul> to display cart items on checkout page)  -->
-							
-								</ul>
+								<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
+										
+								<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+										<ul class="list-group " id="items_json{{order_item.order_id}}" >
+									<!-- VERY IMPORTANT line to display cart items on checkout page (Also id="items" => helps in triggering <ul>....</ul> to display cart items on checkout page)  -->
+									
+										</ul>
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
 						</div>
 
 						</td>
