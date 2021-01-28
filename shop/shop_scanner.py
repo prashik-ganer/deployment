@@ -23,7 +23,7 @@ for j in donors_data['records']:
     donors_list.append(j['fields']['OrderId'])
 
 # def scanqr():
-url= 'http://192.168.43.8/cam-lo.jpg'
+# url= 'http://192.168.43.8/cam-lo.jpg'
 cv2.namedWindow("Window", cv2.WINDOW_AUTOSIZE)
 
 while True:

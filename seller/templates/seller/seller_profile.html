@@ -188,7 +188,7 @@
 <div class="row">
 	<div class="col-md">
 		<div class="card card-body p-0">
-			<table class="table table-sm table-striped">
+			<table class="table table-sm">
 			<div class="accordian-body">
 				<div class="card card-body">
 				<h3><b>ORDERS</b></h3>
@@ -204,20 +204,21 @@
 					<th class="mode-th" data-colname="mode" data-order="desc">Mode</th>
 					<th class="status-th" data-colname="status" data-order="desc">Status</th>
 					<th class="update-status-th" data-colname="updateStatus" data-order="desc">Update Status</th>
+					<th class="seller-tracker-th" data-colname="sellerTracker" data-order="desc">Tracker</th>
 				</tr>
 				<tbody>
                     {% for order_item in order %}
-					<tr>
+					<tr class="table-row ">
 						<td class="customer-td"><b>{{order_item.name}}</b></td>
 						<td class="orderId-td">{{order_item.order_id}}</td>
 						<td class="products-td">
-						 {% comment %} <div class="products-list">
+						 <div class="products-list">
 							<ul class="list-group " id="items_json{{order_item.order_id}}" >
 								<!-- VERY IMPORTANT line to display cart items on checkout page (Also id="items" => helps in triggering <ul>....</ul> to display cart items on checkout page)  -->
 								
 							</ul>
-						</div>  {% endcomment %}
-						<div class="products-btn">
+						</div>
+						{% comment %} <div class="products-btn">
 						
 								<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
 										
@@ -231,15 +232,21 @@
 										</div>
 									</div>
 								</div>
-						</div>
+						</div> {% endcomment %}
 
 						</td>
 						<td class="date-td">{{order_item.date_created|date:'D d M Y'}}</td>
 						<td class="amount-td">₹ {{order_item.amount}}</td>
 						<td class="mode-td">{{order_item.mode}}</td>
-						<td class="status-td">{{order_item.status}}</td> 
+						<td class="status-td" id="orderStatus">{{order_item.status}}</td> 
+						{% comment %} {% if order_item.status == Delivered %}
+							<script>
+								
+							</script>
+						{% endif %} {% endcomment %}
 						{% comment %} <td><a class="btn btn-sm btn-info" href="{% url 'sellerTracker' order_item.order_id %}">Tracker</a></td> {% endcomment %}
 						<td><a class="btn btn-sm btn-info update-status-td" href="{% url 'updateStatus' order_item.order_id %}"><b>Update</b></a></td>
+						<td><a class="btn btn-sm btn-info seller-tracker-td" href="{% url 'sellerTracker' order_item.order_id %}"><b>Tracker</b></a></td>
 						<!-- {% comment %} <td><a class="btn btn-sm btn-danger" href="{% url 'update_order' order.id %}">Delete</a></td> {% endcomment %} -->
                         </tr>
 						
@@ -342,6 +349,8 @@ if (localStorage.getItem('cart') == null) {
 				
 			}	
 
+			
+
 				// var row = table_main.insertRow(-1);
 				console.log("end of internal loop")
 				var break_loop = "break"
@@ -351,6 +360,11 @@ if (localStorage.getItem('cart') == null) {
 
     }    
 	
+
+	// let status = document.getElementById("orderStatus").innerHTML
+	// if (status="Delivered"){
+	// 	document.getElementById("orderStatus").style.backgroundColor = "#00ff00";
+	// }
 
 var totalPrice
 for (item in cart) {
