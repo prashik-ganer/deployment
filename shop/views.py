@@ -257,6 +257,7 @@ def checkout(request):
             sample = f'''{{'order_id': {id}}}'''
             # string_sample = json.dumps(sample)
             sample = sample.replace("\'","\"")
+            airtable_order_id = order.order_id
             # AIRTABLE-PYTHON INTEGRATION STARTS
             update_url = env("AIRTABLE_ORDER_UPDATE_URL")
             update_headers = {
@@ -266,7 +267,8 @@ def checkout(request):
             update_data = {
                 "fields": {
                 # "Name": 33,
-                "OrderValue": sample
+                "OrderValue": sample,
+                "OrderId": airtable_order_id
             },
             #   "createdTime": "2021-01-02T20:33:49.000Z"
             }
