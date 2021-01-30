@@ -11,6 +11,7 @@ from shop.models import Orders, Product, OrderUpdate, Customer_QR
 from accounts.models import Seller, Order, Customer
 import json
 import pyqrcode
+import requests
 from .filters import OrdersFilter
 
 
@@ -47,12 +48,21 @@ def seller_profile(request, seller_profile):
     # order_json = order.items_json
     orders_list=[]
     for orders in order:
-        print(orders)
+        # print(orders)
         orders_list.append(orders)
         # x = {x.items_json for x in orders}                                       # Set comprehension
     print("orders_list")
     print("orders_list", orders_list)
 
+
+    seller_orders_list=[]
+    # CHecks order id to match it with airtable orders's id
+    print("Seller orders list")
+    for item in orders_list:
+        # print(item.order_id)
+        seller_orders_list.append(item.order_id)
+        # pass
+    print(seller_orders_list)
     myFilter = OrdersFilter(request.GET, queryset=order)
     order = myFilter.qs
 
@@ -83,31 +93,63 @@ def seller_profile(request, seller_profile):
     dicts2 = dicts1.replace("}\"","}]")
     # print("dicts2",dicts2)
 
-    # print("order_items_list : ",order_items_list)
-    
-    
-    # print(seller_phone)
-    # dumped = json.dumps(order_items_list)
-    # # print("dumped order_items_list : ", dumped)
-    # # print(type(dumped))
-    # replaced1 = dumped.replace("[", " ",1)
-    # replaced2 = replaced1.replace("\\", " ")
-    # replaced_New = replaced2[:-1]
-    # # print(replaced_New)
-    # new1 = replaced_New.replace("\"{","{")
-    # new2 = new1.replace("}\"","}")
-    # new3 = new2.replace("{","")
-    # new4 = new3.replace("}","")
-    # new5 = "{"+ new4 +"}"
+    get_headers = {
+        'Authorization': 'Bearer keydq2SURfHCN4Aig'
+        }
 
-    # print(items_json)
-    # print(replaced1)
-    # print(replaced2)
-    # print(type(replaced_New))
-    # print(new5)
-        
+    url = 'https://api.airtable.com/v0/appJeyihmd9jyLKy1/TableNew?maxRecords=100&view=Orders'
+    response = requests.get(url, headers=get_headers)
+    # print(donors_response)
+    data = response.json()
+    # print(donors_data)
+    dumps = json.dumps(data)
+    # print(dumps)
+    airtable_order_id = []
+    airtable_order_status = []
+
+    # Generating order id list and order status list from json received
+    for j in data['records']:
+        # Gets all order ids from airtable
+        airtable_order_id.append(j['fields']['OrderId'])
+        # Gets all order statuses from airtable
+        airtable_order_status.append(j['fields']['OrderStatus'])
+
+    # print(airtable_order_id)
+    # print(airtable_order_status)
+
+    # Joiniing order ids withorder status
+    airtable_dict = dict(zip(airtable_order_id,airtable_order_status))
+    print("airtable_dict : ", airtable_dict)
+
+    # Ids of seller orders that matched with airtable
+    print("Ids of seller orders that matched with airtable with order status!")
+
+    seller_order_status_dict = {}
+    for i in seller_orders_list:
+        # print("i   : ", i)
+        for j in airtable_dict:
+            # print("airtable_idct[j]   :", airtable_dict[j])
+            if j == i:
+                # print(j, airtable_dict[j])
+                seller_order_status_dict[i] = airtable_dict[j]
+    print(seller_order_status_dict)
+    seller_order_with_status_str_one = json.dumps(str(seller_order_status_dict))
+    json_seller_order_with_status_two = seller_order_with_status_str_one.replace("\'", "\"")
+    json_seller_order_with_status_three = json_seller_order_with_status_two.replace("\"{", "{")
+    json_seller_order_with_status_four = json_seller_order_with_status_three.replace("}\"", "}")
+    print("json_seller_order_with_status_four", json_seller_order_with_status_four)
+    json_seller_order_with_status = json.dumps(eval(json_seller_order_with_status_four))
+    # one = json.dumps(str(json_seller_order_with_status_four))
+    # json_seller_order_with_status = one.replace("\\\"", "\"")
+    # json_seller_order_with_status = json_seller_order_with_status_four.replace("\"", "/")
+    print(json_seller_order_with_status)
+    # for i in orders_list:
+    #     print(i.order_id)
+    
+
+
     context={'replaced_New':dicts2,'order':order,'seller_email':seller_email, 'seller_phone':seller_phone, 'order_count':order_count, 'delivered':delivered, 'pending': pending,
-            'myFilter':myFilter}
+            'myFilter':myFilter, 'json_seller_order_with_status':json_seller_order_with_status}
 
     return render(request, 'seller/seller_profile.html', context)
 

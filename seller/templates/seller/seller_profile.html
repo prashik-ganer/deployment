@@ -272,10 +272,87 @@
 
 {% block js %}
 <script>
-setTimeout(function(){
-   window.location.reload(1);
-}, 5000);
+//setTimeout(function(){
+// window.location.reload(1);
+//}, 5000);
 
+//var received = "{{cart|escapejs}}"
+var json_seller_order_with_status = JSON.parse(`{{json_seller_order_with_status|escapejs}}`)
+
+console.log(json_seller_order_with_status)
+
+
+//console.log("INSIDE FOR LOOP JINJA")
+
+new_json = {}
+ {% for order_item in order %}
+	initial_order_id = "{{order_item.order_id}}"
+	initial_order_status = "{{order_item.status}}"
+
+	//console.log("{{order_item.order_id}}")
+	//console.log("{{order_item.status}}")
+	for (let airtable_item in json_seller_order_with_status){
+		//console.log("airtable -> order id and status -->", airtable_item,json_seller_order_with_status[airtable_item])
+		//console.log("initial_order_id",initial_order_id)
+		//console.log(initial_order_status)
+		//console.log("airtable_item", airtable_item)
+		//console.log("json_seller_order_with_status", json_seller_order_with_status[airtable_item])
+		if(initial_order_id == airtable_item){
+
+			//initial_order_status = json_seller_order_with_status
+			//"{{order_item.status}}" = json_seller_order_with_status
+			//console.log(airtable_item)
+			//console.log("initial_order_status", initial_order_status)
+			//console.log("airtable_order_status", json_seller_order_with_status[airtable_item])
+
+				json_order_mix = {
+					"{{order_item.order_id}}" : {
+						"initial_order_status":initial_order_status,
+						"airtable_order_status": json_seller_order_with_status[airtable_item]
+						}
+		
+				} 
+
+				//localStorage.setItem('json_order_mix_local_storage', JSON.stringify(json_order_mix));
+
+
+				console.log(json_order_mix)
+				
+				//json_order_mix = new_json + json_order_mix 
+				
+				
+ 		}
+
+	}
+	
+
+
+
+{% endfor %}
+
+
+// for (let airtable_item in json_seller_order_with_status){
+// 	console.log("[0][0] --> 	", airtable_item,json_seller_order_with_status[airtable_item])
+// 	let initial_order_id = "{{order_item.order_id}}"
+// 	//console.log("{{order_item.order_id}}")
+	
+// 	let airtable_order_id = airtable_item
+// 	let airtable_order_status = json_seller_order_with_status[airtable_item]
+// 	//console.log("airtable_order_status",airtable_order_status)
+// 	let initial_order_status = "{{order_item.status}}"
+// 	//console.log("{{order_item.status}}")
+
+// 	var json_order_mix = {
+// 			"{{order_item.order_id}}" : {
+// 				"initial_order_status":initial_order_status,
+// 				"airtable_order_status":airtable_order_status
+// 					}
+		
+// 			}
+// 	}
+// 	//console.log(json_order_mix) 
+
+//console.log(json_order_mix_local_storage)
 if (localStorage.getItem('cart') == null) {
     var cart = {};
   } else {
@@ -288,7 +365,7 @@ if (localStorage.getItem('cart') == null) {
 	var replaced_New = "{{replaced_New|escapejs}}"
     //localStorage.setItem('dumped', dumped);
 	console.log(typeof replaced_New)
-	console.log("replaced2New : ",replaced_New)
+	//console.log("replaced2New : ",replaced_New)
 	parsed_replaced_New = JSON.parse(replaced_New)
 	console.log("parsed_order_items_list : ", parsed_replaced_New)
 	var count = Object.keys(parsed_replaced_New).length;
@@ -306,18 +383,19 @@ if (localStorage.getItem('cart') == null) {
         
 		for (var item in parsed_replaced_New) {
 			
-			console.log("inside-1st forloop")
-			console.log("item : ", item)
-			console.log("data[items][0]", data[item][0])
+			//console.log("inside-1st forloop")
+			//console.log("item : ", item)
+			//console.log("data[items][0]", data[item][0])
 			let p = item
 			
 			for (var internal_items in data[item][0]){
 				
-				console.log("inside-2nd forloop")
-				console.log("internal_items : ", data[item][0][internal_items][1])
+				//console.log("inside-2nd forloop")
+				//console.log("internal_items : ", data[item][0][internal_items][1])
 				let item_name = data[item][0][internal_items][1]
 				let item_quantity = data[item][0][internal_items][0]
-				console.log("internal_items : ", internal_items)
+				//console.log("internal_items : ", internal_items)
+				
 				// let row = `
 				// 	<li class="list-group-item d-flex justify-content-between align-items-center">
 				// 		${item_name}
@@ -343,7 +421,7 @@ if (localStorage.getItem('cart') == null) {
 					// if (p!=internal_items){
 					// 	break
 					// }
-				console.log("item : at end of internal loop -> ", item)
+				//console.log("item : at end of internal loop -> ", item)
 
 				 $('#items_json'+  item ).append(row);
 				
@@ -352,10 +430,10 @@ if (localStorage.getItem('cart') == null) {
 			
 
 				// var row = table_main.insertRow(-1);
-				console.log("end of internal loop")
+				//console.log("end of internal loop")
 				var break_loop = "break"
 				
-				console.log("outside end : ", item)
+				//console.log("outside end : ", item)
 			}
 
     }    

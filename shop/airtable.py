@@ -5,42 +5,57 @@ get_headers = {
     'Authorization': 'Bearer keydq2SURfHCN4Aig'
     }
 
-url = 'https://api.airtable.com/v0/appJeyihmd9jyLKy1/Table?maxRecords=100&view=Orders'
+url = 'https://api.airtable.com/v0/appJeyihmd9jyLKy1/TableNew?maxRecords=100&view=Orders'
 response = requests.get(url, headers=get_headers)
 # print(donors_response)
 data = response.json()
-# print(donors_data)
+# print(data.keys())
+# print((type(data)))
+
 dumps = json.dumps(data)
-# print(dumps)
-Orders_list = []
+# print(type(dumps))
+airtable_order_id = []
+airtable_order_status = []
+orders_dict = {}
+
 
 for j in data['records']:
-    Orders_list.append(j['fields']['OrderValue'])
+    airtable_order_id.append(j['fields']['OrderId'])
+    airtable_order_status.append(j['fields']['OrderStatus'])
 
-print(Orders_list)
+# print(airtable_order_id)
+# print(airtable_order_status)
 
-sample = f'''{{'order_id': 300}}'''
+# dict(list(enumerate(values)))
 
-update_url = 'https://api.airtable.com/v0/appJeyihmd9jyLKy1/TableNew?maxRecords=20&view=Orders'
-update_headers = {
-    'Authorization': 'Bearer keydq2SURfHCN4Aig',
-    'Content-Type': 'application/json'
-}
-update_data = {
-    "fields": {
-    # "Name": 33,
-    "OrderValue": sample,
-    "OrderId": 30,
-    },
-#   "createdTime": "2021-01-02T20:33:49.000Z"
-}
+airtable_dict = dict(zip(airtable_order_id,airtable_order_status))
+print("airtable_dict : ", airtable_dict)
+    
+# for j in data['records']:
+#     Orders_list.append(j['fields']['OrderId'])
 
-# print(update_data)
-update_response = requests.post(update_url, headers=update_headers, json=update_data)
+# print(Orders_list)
+
+# sample = f'''{{'order_id': 400}}'''
+
+# update_url = 'https://api.airtable.com/v0/appJeyihmd9jyLKy1/TableNew?maxRecords=20&view=Orders'
+# update_headers = {
+#     'Authorization': 'Bearer keydq2SURfHCN4Aig',
+#     'Content-Type': 'application/json'
+# }
+# update_data = {
+#     "fields": {
+#     # "Name": 33,
+#     "OrderValue": sample,
+#     "OrderId": 40,
+#     },
+# #   "createdTime": "2021-01-02T20:33:49.000Z"
+# }
+
+# # print(update_data)
+# update_response = requests.post(update_url, headers=update_headers, json=update_data)
 
 
-
-print(Orders_list)
 
 # url= 'http://192.168.43.8/cam-lo.jpg'
 
