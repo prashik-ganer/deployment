@@ -18,6 +18,9 @@ from .filters import OrdersFilter
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from django.views.decorators.csrf import csrf_exempt
+
+
 # Create your views here.
 def home(request):
     sellers =  Seller.objects.all()
@@ -28,13 +31,15 @@ def home(request):
 
     return render(request, 'seller/index.html', context)
 
+
+@csrf_exempt
 def seller_profile(request, seller_profile):   
     #     order_items_list.append(p)
     # print("order_items_list : ", order_items_list)
     # j = json.dumps(order_items_list)
     # print("order", order)
     
-    
+    thank = True
     seller = Seller.objects.get(id=seller_profile)
     # print(seller)
     order = seller.orders_set.all()
@@ -149,7 +154,7 @@ def seller_profile(request, seller_profile):
 
 
     context={'replaced_New':dicts2,'order':order,'seller_email':seller_email, 'seller_phone':seller_phone, 'order_count':order_count, 'delivered':delivered, 'pending': pending,
-            'myFilter':myFilter, 'json_seller_order_with_status':json_seller_order_with_status}
+            'myFilter':myFilter, 'json_seller_order_with_status':json_seller_order_with_status, 'thank':thank}
 
     return render(request, 'seller/seller_profile.html', context)
 
@@ -197,7 +202,7 @@ def sellerTracker(request, status):
     context = {'form':form}
     return render(request, 'seller/seller_tracker.html', context)
 
-
+@csrf_exempt
 def updateStatus(request, status):
     statusorder = Orders.objects.get(order_id=status)
     form = OrderStatusForm(instance=statusorder)

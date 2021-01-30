@@ -188,7 +188,7 @@
 <div class="row">
 	<div class="col-md">
 		<div class="card card-body p-0">
-			<table class="table table-sm">
+			<table class="table table-sm" id="table">
 			<div class="accordian-body">
 				<div class="card card-body">
 				<h3><b>ORDERS</b></h3>
@@ -238,7 +238,7 @@
 						<td class="date-td">{{order_item.date_created|date:'D d M Y'}}</td>
 						<td class="amount-td">₹ {{order_item.amount}}</td>
 						<td class="mode-td">{{order_item.mode}}</td>
-						<td class="status-td" id="orderStatus">{{order_item.status}}</td> 
+						<td class="status-td" id="orderStatus{{order_item.order_id}}">{{order_item.status}}</td> 
 						{% comment %} {% if order_item.status == Delivered %}
 							<script>
 								
@@ -297,8 +297,28 @@ new_json = {}
 		//console.log(initial_order_status)
 		//console.log("airtable_item", airtable_item)
 		//console.log("json_seller_order_with_status", json_seller_order_with_status[airtable_item])
-		if(initial_order_id == airtable_item){
+		
+		
+		// --------------------       VERY IMPORTANT (30TH/JANUARY/2020)    AIRTABLE-DJANGO DYNAMIC CONNECTTUIN IF IDS OF ORDERS ARE MATCHED   ------------------------------------- //
 
+		// Add the properties in if block that needs to be changed using Airtable Dynamically!
+		if(initial_order_id == airtable_item){
+			console.log("json_seller_order_with_status[airtable_item]",json_seller_order_with_status[airtable_item])
+				// Now if we need to target any table data cell, we should add "{{order_item.order_id}}" after its id and trigger any command we want below
+				document.getElementById("orderStatus{{order_item.order_id}}").innerHTML=json_seller_order_with_status[airtable_item]
+				//  $.post( "shop/update_status/{{order_item.order_id}}",
+				// 			{
+				// 				csrfmiddlewaretoken: '{{ csrf_token }}' ,
+				// 				status : json_seller_order_with_status[airtable_item]
+				// 			},
+				// 			function(data) {
+								
+				// 			});
+				//document.getElementById("table").deleteRow("{{order_item}}")
+		
+		// --------------------       VERY IMPORTANT (30TH/JANUARY/2020)       ------------------------------------- //
+		
+		
 			//initial_order_status = json_seller_order_with_status
 			//"{{order_item.status}}" = json_seller_order_with_status
 			//console.log(airtable_item)
