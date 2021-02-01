@@ -7,7 +7,7 @@ from accounts.decorators import unauthenticated_user, allowed_users, admin_only
 
 # Extra implemented
 from .forms import OrderStatusForm, OrderUpdatesForm
-from shop.models import Orders, Product, OrderUpdate, Customer_QR
+from shop.models import Orders, Product, OrderUpdate, Customer_QR, SellerProductStock
 from accounts.models import Seller, Order, Customer
 import json
 import pyqrcode
@@ -19,6 +19,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -184,7 +185,11 @@ def products(request):
     print("seller : ", request.user.seller)
     products = Product.objects.filter(seller=seller)
     print(products)
-    context = {'products':products}
+
+    seller_product_stock = SellerProductStock.objects.filter(seller_ps=seller)
+    print("seller_product_stock",seller_product_stock)
+
+    context = {'products':products, 'seller_product_stock':seller_product_stock}
     # return HttpResponse("Products!")
     return render(request, 'seller/seller_products.html', context)
 
@@ -213,6 +218,13 @@ def updateStatus(request, status):
             return redirect('/seller')
     context = {'form':form}
     return render(request, 'seller/update_status.html', context)
+
+
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
+def updateOrderStatus(request):
+    
+    return JsonResponse('Order Status updated successfully!', safe=True)
 
 
 

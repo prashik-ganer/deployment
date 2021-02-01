@@ -20,6 +20,14 @@ urlpatterns = [
     path("stores/", views.stores, name="stores"),
     path("update_item/", views.updateItem, name="update_item"),
     path("qrcode/id=<int:order_id>", views.qrcode, name="qrcode"),
-    path("allorders/", views.allOrders, name="all-orders"),
+    path("all_products/", views.allProducts, name="allProducts"),
+    # path("seller_products/", views.SellerProducts, name="SellerProducts"),
+    
+    
+    path("all_orders/", views.allOrders, name="allOrders"),
+    # path("all_orders/<int:pk>", views.SellerOrders, name="SellerOrders"),
+    # path("order_create/", views.OrderCreate, name="OrderCreate"),
+    # path("order_update/", views.OrderUpdate, name="OrderUpdate"),
+    # path("all_orders/<int:pk>", views.OrderDetails, name="OrderDetails"),
     
 ]

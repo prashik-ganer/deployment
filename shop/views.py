@@ -24,7 +24,7 @@ import json
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import AllOrdersSerializer
+from .serializers import AllOrdersSerializer, AllProductsSerializer, AllProductsStockSerializer
 
 # import cv2
 # import numpy as np
@@ -268,7 +268,8 @@ def checkout(request):
                 "fields": {
                 # "Name": 33,
                 "OrderValue": sample,
-                "OrderId": airtable_order_id
+                "OrderId": airtable_order_id,
+                "OrderStatus": "Pending",
             },
             #   "createdTime": "2021-01-02T20:33:49.000Z"
             }
@@ -347,7 +348,8 @@ def checkout(request):
                 "fields": {
                 # "Name": 33,
                 "OrderValue": sample,
-                "OrderId": airtable_order_id
+                "OrderId": airtable_order_id,
+                "OrderStatus": "Pending",
             },
             #   "createdTime": "2021-01-02T20:33:49.000Z"
             }
@@ -733,4 +735,15 @@ def allOrders(request):
     serializer = AllOrdersSerializer(all_orders, many=True)
     # print("All Orders : ", all_orders)
 
-    return Response(serializer)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def allProducts(request):
+    all_products = Product.objects.all()
+    print("type :: ", type(all_products))
+    print("type :: ", all_products)
+    serializer = AllProductsSerializer(all_products, many=True)
+    # print("All Orders : ", all_orders)
+
+    return Response(serializer.data)

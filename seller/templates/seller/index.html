@@ -20,12 +20,14 @@
 				<tbody>
                     <tr>
                         <th></th>
+                        <th>Seller_Id</th>
                         <th>Seller_name</th>
                         <th>Seller_email</th>
                     
                     {% for seller in sellers %}
                         <tr>
                             <td><a class="btn btn-sm btn-info" href="{% url 'seller' seller.id %}">View</a></td>
+                            <td>{{seller.id}}</td>
                             <td>{{seller.seller_name}}</td>
                             <td>{{seller.seller_email}}</td>
                         </tr>
@@ -45,4 +47,42 @@
 {% endblock body %}
 
 
-{% block js %}{% endblock js %}
+{% block js %}
+<script>
+
+{% comment %} var url = 'shop/all_orders/'
+
+fetch(url)
+.then((resp) => resp.json())
+.then(function(data){
+    console.log('Data', data)
+}) {% endcomment %}
+
+
+    var url = '/shop/all_orders/'
+
+    fetch(url,{
+      method: 'GET',
+      headers:{
+        'Content-Type':'application/json',
+        'X-CSRFToken':csrftoken,
+      }
+    })
+      //Response.Cookies("UID")=1
+      //Response.Cookies("UID").Domain = "shop/"
+
+
+    // To get the response from the view, The following blocks should be added
+    .then((response)=>{
+      return response.json()
+    })
+
+    .then((data)=>{
+      console.log('data', data)
+    })
+
+
+
+
+</script>
+{% endblock js %}

@@ -185,7 +185,41 @@
 
 
 
-<div class="row">
+<aside class="col-md-12 card">
+	{% for order_item in order %}
+			<article class="card-body border-bottom px-0">
+					<div class="row">
+						<div class="col-3">
+							<figure class="itemside">
+								<div class="aside"><img src="https://source.unsplash.com/50x50/?nature,water" class="border img-sm"></div>
+								<figcaption class="info">
+									<p class="name my-0"><b>Customer : </b> {{order_item.name}} </p>
+									<p class="order_id my-0"><b>Order Id :  </b>{{order_item.order_id}}</p>
+									<p class="mode my-0"><b>Mode :  </b>{{order_item.mode}}</p>
+									<p class="amount"><b>Total Price:  </b>₹ {{order_item.amount}}</p>
+									<div>
+										<td><a class="btn btn-sm btn-info update-status-td" href="{% url 'updateStatus' order_item.order_id %}"><b>Update</b></a></td>
+										<td><a class="btn btn-sm btn-info seller-tracker-td" href="{% url 'sellerTracker' order_item.order_id %}"><b>Tracker</b></a></td>
+									</div>
+									<p class="status my-0"><b>Status :</b> <span id="orderStatus{{order_item.order_id}}"></span></p>
+								</figcaption>
+							</figure> 
+						</div> <!-- col.// -->
+						<div class="col-9 text-md-right text-right"> 
+							<div class="products-list">
+							<ul class="list-group " id="items_json{{order_item.order_id}}" >
+								<!-- VERY IMPORTANT line to display cart items on checkout page (Also id="items" => helps in triggering <ul>....</ul> to display cart items on checkout page)  -->
+								
+							</ul>
+						</div>
+						</div>
+					</div> <!-- row.// -->
+			</article> <!-- card-group.// -->
+		{% endfor %}	
+	</aside>
+
+
+<div class="row d-none">
 	<div class="col-md">
 		<div class="card card-body p-0">
 			<table class="table table-sm" id="table">
@@ -212,27 +246,7 @@
 						<td class="customer-td"><b>{{order_item.name}}</b></td>
 						<td class="orderId-td">{{order_item.order_id}}</td>
 						<td class="products-td">
-						 <div class="products-list">
-							<ul class="list-group " id="items_json{{order_item.order_id}}" >
-								<!-- VERY IMPORTANT line to display cart items on checkout page (Also id="items" => helps in triggering <ul>....</ul> to display cart items on checkout page)  -->
-								
-							</ul>
-						</div>
-						{% comment %} <div class="products-btn">
-						
-								<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
-										
-								<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-									<div class="modal-dialog modal-lg">
-										<div class="modal-content">
-										<ul class="list-group " id="items_json{{order_item.order_id}}" >
-									<!-- VERY IMPORTANT line to display cart items on checkout page (Also id="items" => helps in triggering <ul>....</ul> to display cart items on checkout page)  -->
-									
-										</ul>
-										</div>
-									</div>
-								</div>
-						</div> {% endcomment %}
+				
 
 						</td>
 						<td class="date-td">{{order_item.date_created|date:'D d M Y'}}</td>
@@ -248,7 +262,7 @@
 						<td><a class="btn btn-sm btn-info update-status-td" href="{% url 'updateStatus' order_item.order_id %}"><b>Update</b></a></td>
 						<td><a class="btn btn-sm btn-info seller-tracker-td" href="{% url 'sellerTracker' order_item.order_id %}"><b>Tracker</b></a></td>
 						<!-- {% comment %} <td><a class="btn btn-sm btn-danger" href="{% url 'update_order' order.id %}">Delete</a></td> {% endcomment %} -->
-                        </tr>
+                    </tr>
 						
 						{% endfor %}
 					</tbody>
@@ -424,7 +438,7 @@ if (localStorage.getItem('cart') == null) {
 				let row = `
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center">
-							${item_name}
+						${item_name}   
 						<span class="badge bg-primary rounded-pill px-2">${item_quantity}</span>
 						</li>
 					</ul>`
