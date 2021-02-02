@@ -3,36 +3,33 @@
 
 {% block css %}
 <style>
-    .message-alert {
-        border: 1px solid #5e7356;
-        background-color: #ddf0d5;
-        color: #5e7356;
-        padding: 10px;
-        border-radius: 3px;
-        width: 90%;
-        margin: 0 auto;
-        margin-top: 20px;
-        text-align: center;
-    }
+  .message-alert {
+    border: 1px solid #5e7356;
+    background-color: #ddf0d5;
+    color: #5e7356;
+    padding: 10px;
+    border-radius: 3px;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 20px;
+    text-align: center;
+  }
 
-    .card {
-        width: 100%;
-        height: fit-content;
-    }
+  .card {
+    width: 100%;
+    height: fit-content;
+  }
 
-    .totalOrders-box,
-    /* .ordersDelivered-box, */
-    .ordersPending-box {
-        background: rgb(243, 195, 39);
-    }
+  .totalOrders-box,
+  /* .ordersDelivered-box, */
+  .ordersPending-box {
+    background: rgb(243, 195, 39);
+  }
 
-    .table td, .table th {
+  .table td,
+  .table th {
     font-size: 0.8rem;
-    }
-
-
-
-
+  }
 </style>
 {% endblock css %}
 
@@ -40,174 +37,178 @@
 
 
 
-   {% if user.is_authenticated %}
-          
+{% if user.is_authenticated %}
+
 
 
 <br>
 <div class="row mx-1">
-    <div class="col-md-3">
-        <div class="card card-body bg-info">
-            <a href="/shop" class="btn btn-warning"> &#8592; Back to Profile</a>
-            <hr>
-            <h3 class="text-warning" style="text-align: center"><b>PROFILE</b></h3>
-            <hr>
-            <img src="{{request.user.customer.profile_pic.url}}" alt="" class="profile-pic">                
-        </div>
+  <div class="col-md-3">
+    <div class="card card-body bg-info">
+      <a href="/shop" class="btn btn-warning"> &#8592; Back to Profile</a>
+      <hr>
+      <h3 class="text-warning" style="text-align: center"><b>PROFILE</b></h3>
+      <hr>
+      <img src="{{request.user.customer.profile_pic.url}}" alt="" class="profile-pic">
     </div>
-    {% load crispy_forms_tags %}
-    <div class="col-md-9">
-        <div class="card card-body">
-        {% load cloudinary %}
-            <form method="POST" action="" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{form | crispy}}
-                <input class="btn btn-primary" type="submit" name="Update Information">
-            </form>
-        </div>
-<!--  not own  -->
-        <br>
-        <div class="row">
-        <div class="col">
-            <div class="col-md">
-                <div class="card totalOrders-box text-center text-white  mb-3" id="total-orders">
-                    <div class="card-header">
-                        <h5 class="card-title">Total Orders</h5>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">{{total_orders}}</h3>
-                    </div>
-                </div>
+  </div>
+  {% load crispy_forms_tags %}
+  <div class="col-md-9">
+    <div class="card card-body">
+      {% load cloudinary %}
+      <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form | crispy}}
+        <input class="btn btn-primary" type="submit" name="Update Information">
+      </form>
+    </div>
+    <!--  not own  -->
+    <br>
+    <div class="row">
+      <div class="col">
+        <div class="col-md">
+          <div class="card totalOrders-box text-center text-white  mb-3" id="total-orders">
+            <div class="card-header">
+              <h5 class="card-title">Total Orders</h5>
             </div>
+            <div class="card-body">
+              <h3 class="card-title">{{total_orders}}</h3>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div class="col">
-            <div class="col-md">
-                <div class="card ordersDelivered-box text-center text-white bg-primary mb-3" id="orders-delivered">
-                    <div class="card-header">
-                        <h5 class="card-title">Orders Delivered</h5>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">{{delivered}}</h3>
-                    </div>
-                </div>
+      <div class="col">
+        <div class="col-md">
+          <div class="card ordersDelivered-box text-center text-white bg-primary mb-3" id="orders-delivered">
+            <div class="card-header">
+              <h5 class="card-title">Orders Delivered</h5>
             </div>
+            <div class="card-body">
+              <h3 class="card-title">{{delivered}}</h3>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div class="col">
-            <div class="col-md">
-                <div class="ordersPending-box card text-center text-white  mb-3" id="orders-pending">
-                    <div class="card-header">
-                        <h5 class="card-title">Orders Pending</h5>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">{{pending}}</h3>
-                    </div>
-                </div>
+      <div class="col">
+        <div class="col-md">
+          <div class="ordersPending-box card text-center text-white  mb-3" id="orders-pending">
+            <div class="card-header">
+              <h5 class="card-title">Orders Pending</h5>
             </div>
+            <div class="card-body">
+              <h3 class="card-title">{{pending}}</h3>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
-        <div class="row">
-            <div class="col-md">
-                <div class="card card-body  px-1  ">
-                    <table class="table table-sm">
-                        <tbody>
-                            <tr>
-                                <th>ORDER_ID</th>
-                                {% comment %} <th>PRODUCTS</th> {% endcomment %}
-                                <th>TIME</th>
-                                <th>STATUS</th>
-                                <th>ORDER QR</th>
-                            </tr>
-                            {% for order in orders %}
-                                <tr>
-                                    <td>{{order.order_id}}</td>
-                                    {% comment %} <td>{{order.product.category}}</td> {% endcomment %}
-                                    <td>{{order.date_created|date:'d M Y'}}</td>
-                                    <td>{{order.status}}</td>
-							        <td><a class="btn btn-sm btn-info" href="/shop/qrcode/id={{order.order_id}}"><b>View</b></a></td>
+    <div class="row">
+      <div class="col-md">
+        <div class="card card-body  px-1  ">
+          <table class="table table-sm">
+            <tbody>
+              <tr>
+                <th>ORDER_ID</th>
+                {% comment %} <th>PRODUCTS</th> {% endcomment %}
+                <th>TIME</th>
+                <th>STATUS</th>
+                <th>ORDER QR</th>
+              </tr>
+              {% for order in orders %}
+              <tr>
+                <td>{{order.order_id}}</td>
+                {% comment %} <td>{{order.product.category}}</td> {% endcomment %}
+                <td>{{order.date_created|date:'d M Y'}}</td>
+                <td>{{order.status}}</td>
+                <td><a class="btn btn-sm btn-info" href="/shop/qrcode/id={{order.order_id}}"><b>View</b></a></td>
 
-                                </tr>
-                            {% endfor %}
+              </tr>
+              {% endfor %}
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 <div class="col ">
-            
-            
-              <a type="button" href="/shop/logout" class="btn btn-block row btn-info text-light mx-2 my-4">
-                <b>LOGOUT</b>
-              </a>
-
-          
-          {% else %}
-            <div class="container bg-warning border-radius-3">
-                <h3>PLEASE LOGIN TO CREATTE PROFILE</h3>
-            </div>
-         <!-- Button trigger Login modal -->
-          <div class="col ">
-            <button type="button" class="btn btn-block row btn-info text-light mx-2 my-4" data-toggle="modal" data-target="#loginModal">
-              <b>Log-in</b>
-            </button>
-          <!-- Button trigger SignUp modal -->
-            <button type="button" class="btn row btn-block btn-info text-light mx-2 my-4" data-toggle="modal" data-target="#signupModal">
-              <b>Sign-Up</b>
-            </button>
-          </div>
-        
-      
 
 
+  <a type="button" href="/shop/logout" class="btn btn-block row btn-info text-light mx-2 my-4">
+    <b>LOGOUT</b>
+  </a>
 
-    </nav>
+
+  {% else %}
+  <div class="container bg-warning border-radius-3">
+    <h3>PLEASE LOGIN TO CREATTE PROFILE</h3>
+  </div>
+  <!-- Button trigger Login modal -->
+  <div class="col ">
+    <button type="button" class="btn btn-block row btn-info text-light mx-2 my-4" data-toggle="modal"
+      data-target="#loginModal">
+      <b>Log-in</b>
+    </button>
+    <!-- Button trigger SignUp modal -->
+    <button type="button" class="btn row btn-block btn-info text-light mx-2 my-4" data-toggle="modal"
+      data-target="#signupModal">
+      <b>Sign-Up</b>
+    </button>
+  </div>
 
 
 
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          <strong>Message :</strong> {{ message}}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+
+  </nav>
+
+
+
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>Message :</strong> {{ message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+
+
+  <!-- SignUp Modal -->
+  <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="signupModalTitle">SIGN-UP</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-      {% endfor %}
+        <div class="modal-body" style="font-family:poppins">
 
 
-<!-- SignUp Modal -->
-<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModal" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="signupModalTitle">SIGN-UP</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" style="font-family:poppins">
-       
-       
-        <form action="/shop/signup/" method="post">
-        {% csrf_token %}
-          <div class="row">
-            <div class="form-group col-6">
-              <label for="fname">First Name</label>
-              <input type="text" class="form-control bg-muted" id="fname" name="fname" placeholder="First Name" Required>
+          <form action="/shop/signup/" method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="form-group col-6">
+                <label for="fname">First Name</label>
+                <input type="text" class="form-control bg-muted" id="fname" name="fname" placeholder="First Name"
+                  Required>
+              </div>
+              <div class="form-group col-6">
+                <label for="lname">Last Name</label>
+                <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" Required>
+              </div>
             </div>
-            <div class="form-group col-6">
-              <label for="lname">Last Name</label>
-              <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" Required>
-            </div>
-          </div>
-            
+
             <div class="form-group">
               <label for="username">Username</label>
-              <input type="text" class="form-control" id="username" name="username" placeholder="Choose a unique username" Required>
+              <input type="text" class="form-control" id="username" name="username"
+                placeholder="Choose a unique username" Required>
             </div>
             <div class="form-group">
               <label for="signupemail">Email Address</label>
@@ -217,54 +218,58 @@
               <label for="signupemail">Contact Number</label>
               <input type="Number" class="form-control" id="contactnumber" name="phone" placeholder="Contact" Required>
             </div>
-          <div class="row">
-            <div class="form-group col-6">
-              <label for="pass1">Password</label>
-              <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Choose your password" Required>
+            <div class="row">
+              <div class="form-group col-6">
+                <label for="pass1">Password</label>
+                <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Choose your password"
+                  Required>
+              </div>
+              <div class="form-group col-6">
+                <label for="pass2">Confirm Password</label>
+                <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Confirm your password"
+                  Required>
+              </div>
             </div>
-            <div class="form-group col-6">
-              <label for="pass2">Confirm Password</label>
-              <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Confirm your password" Required>
-            </div>
-          </div>
-            
 
-            
+
+
             <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+          </form>
 
+        </div>
       </div>
     </div>
   </div>
+
+
+
+
+  {% endif %}
+
 </div>
 
- 
 
 
-         {% endif %} 
-        
-      
+  <div class="container-fluid mt-5">
+    {% include 'shop/footer.html' %}
+  </div>
+
+  {% endblock body %}
 
 
-<div class="container-fluid mt-5">
-{% include 'shop/footer.html' %}
-</div>
-{% endblock body %}
+  {% block js %}
+
+  <script>
+
+    if (localStorage.getItem('cart') == null) {
+      var cart = {};
+    } else {
+      cart = JSON.parse(localStorage.getItem('cart'));
+      document.getElementById('cart').innerHTML = Object.keys(cart).length;
 
 
-{% block js %}
-
-<script>
-
-if (localStorage.getItem('cart') == null) {
-               var cart = {};
-            } else {
-               cart = JSON.parse(localStorage.getItem('cart'));
-               document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    }
+  </script>
 
 
-            }
-</script>
-
-
-{% endblock js %}
+  {% endblock js %}

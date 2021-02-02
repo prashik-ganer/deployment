@@ -41,12 +41,12 @@
 </div>
 <div class="container">
 <main class="col-md-12">
+
+      
+      <input type="text" id="example" name="username">
+
+
 {% for product in seller_product_stock %}
-
-
-
-
-
 
 			<article class="card card-body mb-3">
 				<div class="row align-items-center">
@@ -173,7 +173,37 @@
 
 
 {% block js %}
+
+
 <script>
+$("#example").change(function(){
+  console.log($(this).val());
+});
+
+$.ajax({
+  type: 'GET',
+  url: 'seller/update_order_status',
+  data:{
+    'username':$("#example").val()
+  },
+  dataType:'json',
+  encode:true,
+  success:function (data){
+    if(data.is_taken){
+      console.log("USER already exists!")
+    }
+  }
+
+
+
+});
+
+
+
+
+
+
+
 
   if (localStorage.getItem('seller_product_stock') == null) {
     seller_product_stock = {};
@@ -184,7 +214,7 @@
   }
 
 
-
+{% comment %} 
 
 seller_id = "{{request.user.seller.id}}"
 
@@ -211,7 +241,7 @@ console.log("this","{{request.user.seller.id}}")
       localStorage.setItem('data', JSON.stringify(data))
       console.log(data)
       
-    })
+    }) {% endcomment %}
 
       minus = document.getElementById("button-minus{{i.id}}")
       console.log("minus",minus)
