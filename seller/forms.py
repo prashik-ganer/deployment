@@ -10,7 +10,7 @@ class OrderStatusForm(ModelForm):
     class Meta:
         model = Orders
         fields = '__all__'
-        exclude = ['seller','email','name','zip_code']
+        exclude = ['timestamp']
 
 
 
@@ -19,6 +19,7 @@ class OrderUpdatesForm(ModelForm):
     class Meta:
         model = OrderUpdate
         fields = '__all__'
+        exclude = ['seller','email','name','zip_code']
 
 
 class OrderQR(ModelForm):

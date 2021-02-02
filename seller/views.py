@@ -120,7 +120,7 @@ def seller_profile(request, seller_profile):
         # Gets all order statuses from airtable
         airtable_order_status.append(j['fields']['OrderStatus'])
 
-    # print(airtable_order_id)
+    print(airtable_order_id)
     # print(airtable_order_status)
 
     # Joiniing order ids withorder status
@@ -189,18 +189,21 @@ def products(request):
     seller_product_stock = SellerProductStock.objects.filter(seller_ps=seller)
     print("seller_product_stock",seller_product_stock)
 
+    # url = '/shop/seller_products/'
+    # response = requests.get(url, headers=get_headers)
+
     context = {'products':products, 'seller_product_stock':seller_product_stock}
     # return HttpResponse("Products!")
     return render(request, 'seller/seller_products.html', context)
 
 def sellerTracker(request, status):
-    updates = OrderUpdate.objects.get(update_id=status)
-    allupdates = OrderUpdate.objects.filter(update_id=status)
+    updates = OrderUpdate.objects.filter(order_id=status)
+    allupdates = OrderUpdate.objects.filter(order_id=status)
     print("allupdates : ", allupdates)
     print("updates : ", updates)
-    form  = OrderUpdatesForm(instance=updates)
+    form  = OrderUpdatesForm()
     if request.method == 'POST':
-        form = OrderUpdatesForm(request.POST, instance=updates)
+        form = OrderUpdatesForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('/seller')

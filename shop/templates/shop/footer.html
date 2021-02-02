@@ -27,18 +27,23 @@
 
 
  </style>
+
 <div class="footer-bottom row site-footer d-flex flex-row pt-3 pb-0 px-1">
     <div class="d-flex flex-row justify-content-around" style="flex:1">
     <a  href="/shop/" class="col d-flex flex-column  justify-content-end">
       <div class="row d-flex flex-column align-content-center"><i class="fas fa-home fa-lg"></i></div>
       <div class="row d-flex flex-column align-content-center text-sm textnav"><b>HOME</b></div>
     </a>
-    <a  href="/shop/category" class="col d-flex flex-column  justify-content-end">
+    <a  href="/shop/category"  class="col d-flex flex-column  justify-content-end">
       <div class="row d-flex flex-column align-content-center"><i class="fas fa-th fa-lg"></i></div>
       <div class="row d-flex flex-column align-content-center textnav"><b>CATEGORY</b></div>
     </a>
-    <a href="#" class="col d-flex flex-column justify-content-center">
-      <div class="row d-flex flex-column align-content-center textnav"><i class="fas fa-store-alt fa-lg"></i></div>
+    {% comment %} <button type="button" id="example"class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+      Popover on top
+    </button> {% endcomment %}
+   
+    <a href="#" id="example" data-toggle="popover" data-placement="top" data-content="Download the app to use product scanner" class="col d-flex flex-column justify-content-center" style="margin-bottom:15px;">
+      <div class="row d-flex flex-column align-content-center textnav"><i class="fas fa-qrcode fa-2x "></i></div>
     </a>
     <a href="/shop/tracker"class="col d-flex flex-column  justify-content-end">
       <div class="row d-flex flex-column align-content-center"><i class="fas fa-stopwatch-20 fa-lg"></i></div>

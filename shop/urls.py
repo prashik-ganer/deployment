@@ -21,7 +21,7 @@ urlpatterns = [
     path("update_item/", views.updateItem, name="update_item"),
     path("qrcode/id=<int:order_id>", views.qrcode, name="qrcode"),
     path("all_products/", views.allProducts, name="allProducts"),
-    # path("seller_products/", views.SellerProducts, name="SellerProducts"),
+    path("all_seller_products/<int:pk>", views.SellerProducts, name="SellerProducts"),
     
     
     path("all_orders/", views.allOrders, name="allOrders"),

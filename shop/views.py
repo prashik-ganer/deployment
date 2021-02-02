@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
-from .models import Product, Contact, Orders, OrderUpdate, Cart
+from .models import Product, Contact, Orders, OrderUpdate, Cart, SellerProductStock
 from math import ceil
 import json
 import pyqrcode
@@ -726,8 +726,8 @@ def qrcode(request, order_id):
 
     return render(request, 'shop/qrcode.html', context)
 
-
-@api_view(['GET'])
+@api_view(['GET','POST'])
+@csrf_exempt
 def allOrders(request):
     all_orders = Orders.objects.all()
     print("type :: ", type(all_orders))
@@ -747,3 +747,16 @@ def allProducts(request):
     # print("All Orders : ", all_orders)
 
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def SellerProducts(request,pk):
+    seller_products = SellerProductStock.objects.get(seller_ps=pk)
+    print("type :: ", type(seller_products))
+    print("type :: ", seller_products)
+    serializer = AllProductsStockSerializer(seller_products, many=True)
+    # print("All Orders : ", all_orders)
+
+    return Response(serializer.data)
+
+

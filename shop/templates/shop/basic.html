@@ -316,13 +316,18 @@
       </div>
          
        {% comment %} {% if user.is_authenticated %} {% endcomment %}
-
+<div class="div d-flex flex-row justify-justify-content-center align-items-center">
+      <a class="text-decoration-none text-dark mx-2" id="map" data-toggle="popover" data-placement="top" data-content="Download the app to use Store Locator Feature " class="col d-flex flex-row align-items-end">
+          
+					<i class="fas fa-map-marked-alt fa-lg"></i>
+      </a>
       <a href="{% url 'Checkout' %}" class="text-decoration-none text-dark mx-3">
        <div  class="icon">
 					<i class="fas fa-shopping-bag fa-lg mx-0"></i>
 					 <span class="notify" id="cart" > <smaller>0</smaller></span>
 				</div>
       </a>
+</div>
           
           {% comment %} <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
@@ -592,6 +597,9 @@
     x.type = "password";
   }
   }
+  $('#example').popover();
+  $('#map').popover();
+
   </script>
 
 {% comment %}   

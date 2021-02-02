@@ -199,9 +199,9 @@
 									<p class="amount"><b>Total Price:  </b>₹ {{order_item.amount}}</p>
 									<div>
 										<td><a class="btn btn-sm btn-info update-status-td" href="{% url 'updateStatus' order_item.order_id %}"><b>Update</b></a></td>
-										<td><a class="btn btn-sm btn-info seller-tracker-td" href="{% url 'sellerTracker' order_item.order_id %}"><b>Tracker</b></a></td>
+										<td><a class="btn btn-sm btn-info seller-tracker-td" href="/seller/tracker/{{order_item.order_id}}"><b>Tracker</b></a></td>
 									</div>
-									<p class="status my-0"><b>Status :</b> <span id="orderStatus{{order_item.order_id}}"></span></p>
+									<p class="status my-0 btn btn-danger mt-2">Status :<b><span id="orderStatus{{order_item.order_id}}"></span></b></p>
 								</figcaption>
 							</figure> 
 						</div> <!-- col.// -->
@@ -320,6 +320,39 @@ new_json = {}
 			console.log("json_seller_order_with_status[airtable_item]",json_seller_order_with_status[airtable_item])
 				// Now if we need to target any table data cell, we should add "{{order_item.order_id}}" after its id and trigger any command we want below
 				document.getElementById("orderStatus{{order_item.order_id}}").innerHTML=json_seller_order_with_status[airtable_item]
+				// if(status_update="Delivered"){
+				// 	document.getElementById("orderStatus{{order_item.order_id}}").style.color="#00ff00";
+				// }
+				// else {
+				// 	document.getElementById("orderStatus{{order_item.order_id}}").style.color="#ff0000";
+				// }
+				
+								// var formData = {
+								// 			"order_id" : "{{order_item.order_id}}",
+								// 			"seller" : "{{request.user.seller.id}}",
+								// 			"status" : "Delivered",
+								// 			'csrfmiddlewaretoken' : $('input[name=csrfmiddlewaretoken]').val()
+								// 		};
+								// 		console.log("formdata : ",formData)
+								// 		// Now we'll process our form
+
+								// $.ajax({
+								// 	type: 'POST',
+								// 	url: '/shop/all_orders/',
+								// 	data: formData,
+								// 	encode: true
+								// })
+
+								// .done(function(data){
+								// 		console.log("data",data)
+								// });	
+				
+				
+				
+				
+				
+				
+				
 				//  $.post( "shop/update_status/{{order_item.order_id}}",
 				// 			{
 				// 				csrfmiddlewaretoken: '{{ csrf_token }}' ,
@@ -437,7 +470,7 @@ if (localStorage.getItem('cart') == null) {
 				// 	</li>`
 				let row = `
 					<ul class="list-group">
-						<li class="list-group-item d-flex justify-content-between align-items-center">
+						<li class=" list-group-item d-flex justify-content-between align-items-center">
 						${item_name}   
 						<span class="badge bg-primary rounded-pill px-2">${item_quantity}</span>
 						</li>

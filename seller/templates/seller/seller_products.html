@@ -43,11 +43,17 @@
 <main class="col-md-12">
 {% for product in seller_product_stock %}
 
+
+
+
+
+
 			<article class="card card-body mb-3">
 				<div class="row align-items-center">
 					<div class="col-md-6">
 						<figure class="itemside">
-							<div class="aside"><img src="https://source.unsplash.com/50x50/?nature,water" class="border img-sm"></div>
+							<!--<div class="aside"><img src="https://source.unsplash.com/50x50/?nature,water" class="border img-sm"></div>-->
+							<div class="aside"><img src="{{product.product_ps.image.url}}" class="border img-sm" width="max-width:130px" height="100px"></div>
 							<figcaption class="info">
 								<span class="text-muted">{{product.product_ps.product_name}}</span>
 								<p href="#" class="title my-0">Category :  {{product.product_ps.category}}</p>
@@ -61,7 +67,7 @@
 							<!--<button class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus">+</i> </button>-->
 							</div>
 							{% comment %} <input type="text" class="form-control" id="count{{product.id}}" value="{{product.stock_count}}"> {% endcomment %}
-							<p class="" id="count{{product.id}}"> </p>
+							<p class="" id="count{{product.id}}">{{product.stock_count}} </p>
 							<div class="input-group-append">
 							<button class="btn btn-light" type="button" id="button-minus{{product.id}}"> - </button>
 							</div>
@@ -70,8 +76,8 @@
               <div class="div mx-auto button-container p-0 mb-2">
                     <span id="divpr{{i.id}}" class="divpr">
                     {% comment %} <button id="pr{{i.id}}" class="btn btn-danger cart p-1" style><img src="/media/carts.svg" alt="" style="width:35%;"></button> {% endcomment %}
-                      <button id="pr{{i.id}}" class="btn btn-danger cart py-1 px-3 mx-1" style>
-                          Total Stock
+                      <button id="pr{{i.id}}" class="btn btn-danger cart py-1 px-3 mx-1 text-danger" style>
+                         
                       
                       </button>
                     </span>
@@ -170,13 +176,10 @@
 <script>
 
   if (localStorage.getItem('seller_product_stock') == null) {
-    var seller_product_stock = {};
+    seller_product_stock = {};
      localStorage.setItem('seller_product_stock', JSON.stringify(seller_product_stock));
   } else {
     console.log("internal")
-    console.log(localStorage.getItem('seller_product_stock'))
-    //cart = JSON.parse(localStorage.getItem('seller_product_stock'));
-    console.log(seller_product_stock)
     //updateCart(cart);
   }
 
@@ -186,7 +189,7 @@
 seller_id = "{{request.user.seller.id}}"
 
 console.log("this","{{request.user.seller.id}}")
-    var url = '/shop/seller_products/'
+    var url = `/shop/all_seller_products/${seller_id}`
 
     fetch(url,{
       method: 'GET',
@@ -205,47 +208,50 @@ console.log("this","{{request.user.seller.id}}")
     })
 
     .then((data)=>{
-     // console.log('data', data)
-      seller_products_stock_json = data
-      console.log("seller_products_stock_json",seller_products_stock_json)
-      localStorage.setItem('seller_products_stock_json', JSON.stringify(seller_products_stock_json));
+      localStorage.setItem('data', JSON.stringify(data))
+      console.log(data)
+      
     })
 
-  {% comment %} console.log(seller_products_stock_json) {% endcomment %}
-    {% for i in seller_product_stock %}
+      minus = document.getElementById("button-minus{{i.id}}")
+      console.log("minus",minus)
+      
+        $('#button-minus{{i.id}}').on('click', function(){
+          var idstr = this.id.toString();
+          //console.log("idstr : ", idstr)
+          console.log("clicked - ",idstr)
+          stock_count = document.getElementById('count{{i.id}}').innerHTML
+          stock_count = stock_count - 1;
+          console.log("stock_count",stock_count)
+          document.getElementById('count{{i.id}}').innerHTML = stock_count
+          console.log("{{i.id}}")
+          // $('#count{{i.id}}').val((seller_products_stock_json["{{i.id}}"]['stock_count']));
 
-        minus = document.getElementById("button-minus{{i.id}}")
-        console.log("minus",minus)
-       
-          $('#button-minus{{i.id}}').on('click', function(){
-            console.log("clicked - !")
-            stock_count = document.getElementById('count{{i.id}}').innerHTML
-            stock_count = stock_count - 1;
-            console.log("stock_count",stock_count)
-            document.getElementById('count{{i.id}}').innerHTML = stock_count
-            console.log("{{i.id}}")
-            $('#count{{i.id}}').val((seller_products_stock_json["{{i.id}}"]['stock_count']));
+          // seller_products_stock_json["{{i.id}}"]['stock_count'] = seller_products_stock_json["{{i.id}}"]['stock_count'] - 1
+          // console.log(seller_products_stock_json["{{i.id}}"]['stock_count'])
+          // updateStock();
+        })
 
-            seller_products_stock_json["{{i.id}}"]['stock_count'] = seller_products_stock_json["{{i.id}}"]['stock_count'] - 1
-            console.log(seller_products_stock_json["{{i.id}}"]['stock_count'])
-            updateStock();
-          })
-
-          $('#button-plus{{i.id}}').on('click', function(){
-            console.log("clicked + !")
-            stock_count = document.getElementById('count{{i.id}}').innerHTML
-            stock_count ++;
-            document.getElementById('count{{i.id}}').innerHTML = stock_count
-            console.log("{{i.id}}" ) 
-            $('#count{{i.id}}').val((seller_products_stock_json["{{i.id}}"]['stock_count']));
-            seller_products_stock_json["{{i.id}}" ]['stock_count'] = seller_products_stock_json["{{i.id}}" ]['stock_count'] - 1
-            console.log(seller_products_stock_json["{{i.id}}" ]['stock_count'])
-            updateStock();
-          })
+        $('#button-plus{{i.id}}').on('click', function(){
+          var idstr = this.id.toString();
+          //console.log("idstr : ", idstr)
+          console.log("clicked + ", idstr)
+          stock_count = document.getElementById('count{{i.id}}').innerHTML
+          stock_count ++;
+          document.getElementById('count{{i.id}}').innerHTML = stock_count
+          console.log("{{i.id}}" ) 
+          // $('#count{{i.id}}').val((seller_products_stock_json["{{i.id}}"]['stock_count']));
+          // seller_products_stock_json["{{i.id}}" ]['stock_count'] = seller_products_stock_json["{{i.id}}" ]['stock_count'] - 1
+          // console.log(seller_products_stock_json["{{i.id}}" ]['stock_count'])
+          // updateStock();
+        })
+//  console.log(seller_products_stock_json) 
+    //{% for i in seller_product_stock %}
 
 
 
-    {% endfor %}
+
+   // {% endfor %}
 
 
   function updateStock(seller_products_stock_json){
