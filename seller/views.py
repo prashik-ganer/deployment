@@ -223,11 +223,15 @@ def updateStatus(request, status):
     return render(request, 'seller/update_status.html', context)
 
 
-from django.views.decorators.csrf import csrf_exempt
-@csrf_exempt
+
 def updateOrderStatus(request):
-    
-    return JsonResponse('Order Status updated successfully!', safe=True)
+    # customer = Customer.o
+    username = request.GET.get('username', None)
+    data = {
+        'is_taken': username + "database"
+    }
+
+    return JsonResponse(data)
 
 
 
