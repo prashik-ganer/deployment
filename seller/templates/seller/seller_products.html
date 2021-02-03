@@ -176,23 +176,23 @@
 
 
 <script>
-$("#example").change(function(){
-  console.log($(this).val());
-});
+// $("#example").change(function(){
+//   console.log($(this).val());
+// });
 
-$.ajax({
-  type: 'GET',
-  url: 'seller/update_order_status',
-  data:{
-    'username':$("#example").val()
-  },
-  dataType:'json',
-  encode:true,
-  success:function (data){
-    if(data.is_taken){
-      console.log("USER already exists!")
-    }
-  }
+// $.ajax({
+//   type: 'GET',
+//   url: 'seller/update_order_status',
+//   data:{
+//     'username':$("#example").val()
+//   },
+//   dataType:'json',
+//   encode:true,
+//   success:function (data){
+//     if(data.is_taken){
+//       console.log("USER already exists!")
+//     }
+//   }
 
 
 
