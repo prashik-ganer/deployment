@@ -37,5 +37,7 @@ urlpatterns = [
     # path("order_create/", views.OrderCreate, name="OrderCreate"),
     # path("order_update/", views.OrderUpdate, name="OrderUpdate"),
     # path("all_orders/<int:pk>", views.OrderDetails, name="OrderDetails"),
+    path("seller_stock/", views.AllSellerProductsStock, name="OrderDetails"),
+    path("seller_stock_update/<int:pk>", views.AllSellerProductsStock_update, name="OrderDetails"),
     
 ]

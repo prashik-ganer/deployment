@@ -10,6 +10,7 @@ class AllProductsSerializer(serializers.ModelSerializer):
 class AllOrdersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Orders
+        # fields = '__all__'
         fields = ['order_id','seller','status']
 
 class AllProductsStockSerializer(serializers.ModelSerializer):

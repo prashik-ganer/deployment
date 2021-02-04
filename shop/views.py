@@ -804,10 +804,22 @@ def products_sellers(request,pk):
 
 @api_view(['GET'])
 def AllSellerProductsStock(request):
-    all_products = Product.objects.all()
-    print("type :: ", type(all_products))
-    print("type :: ", all_products)
-    serializer = AllProductsSerializer(all_products, many=True)
+    seller_product_stock = SellerProductStock.objects.all()
+    print("type :: ", type(seller_product_stock))
+    print("type :: ", seller_product_stock)
+    serializer = AllProductsStockSerializer(seller_product_stock, many=True)
+    # print("All Orders : ", all_orders)
+
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def AllSellerProductsStock_update(request, pk):
+    product_update = Orders.objects.get(id=pk)
+    serializer = AllProductsStockSerializer(instance=product_update ,data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
     # print("All Orders : ", all_orders)
 
     return Response(serializer.data)
