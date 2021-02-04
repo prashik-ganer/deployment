@@ -8,6 +8,7 @@ from cloudinary.models import CloudinaryField
 class Product(models.Model):
     seller = models.ManyToManyField(Seller)
     product_id = models.AutoField
+    barcode_number = models.CharField(max_length=50, default="")
     product_name = models.CharField(max_length=255)
     category = models.CharField(max_length=50, default="")
     subcategory = models.CharField(max_length=50, default="")
@@ -50,8 +51,8 @@ class Orders(models.Model):
     name= models.CharField(max_length=90)
     email= models.CharField(max_length=111)
     
-    address= models.CharField(max_length=111)
-    zip_code= models.CharField(max_length=111)
+    address= models.CharField(max_length=111, null=True, blank=True)
+    zip_code= models.CharField(max_length=111, null=True, blank=True)
     phone_number=models.BigIntegerField(default=0)
     status = models.CharField(max_length=200, null=True, blank=True, choices=STATUS, default="Pending")
     mode = models.CharField(max_length=200, null=True, blank=True, choices=MODE)

@@ -57,7 +57,10 @@
 
 @media screen and (max-width: 500px) {
 
-
+.list-group-item{
+	padding: 10px;
+    font-size: 0.85rem;
+}
 }
 
 
@@ -78,7 +81,7 @@
 
 
 <br>
-<div class="row">
+<div class="row column">
 	<div class="col-md-6">
 		<div class="card card-body">
 			<h5>Seller:</h5>
@@ -188,9 +191,9 @@
 <aside class="col-md-12 card">
 	{% for order_item in order %}
 			<article class="card-body border-bottom px-0">
-					<div class="row">
-						<div class="col-3">
-							<figure class="itemside">
+					<div class="row" id="row">
+						<div class="col-3 " id="order-details">
+							<figure class="itemside d-flex flex-row justify-content-center">
 								<div class="aside"><img src="https://source.unsplash.com/50x50/?nature,water" class="border img-sm"></div>
 								<figcaption class="info">
 									<p class="name my-0"><b>Customer : </b> {{order_item.name}} </p>
@@ -205,7 +208,7 @@
 								</figcaption>
 							</figure> 
 						</div> <!-- col.// -->
-						<div class="col-9 text-md-right text-right"> 
+						<div class="col-9  text-md-right text-right" id="order-list"> 
 							<div class="products-list">
 							<ul class="list-group " id="items_json{{order_item.order_id}}" >
 								<!-- VERY IMPORTANT line to display cart items on checkout page (Also id="items" => helps in triggering <ul>....</ul> to display cart items on checkout page)  -->
@@ -289,6 +292,33 @@
 //setTimeout(function(){
 // window.location.reload(1);
 //}, 5000);
+
+
+// CSS
+
+function myFunction(x) {
+  if (x.matches) { // If media query matches
+    //document.body.style.backgroundColor = "yellow";
+	 $("#row").toggleClass('row column');
+
+	 $("#order-details").toggleClass('col-3 col-12');
+	 $("#order-list").toggleClass('col-9 col-12');
+  }
+  // else {
+  // document.body.style.backgroundColor = "pink";
+  //}
+}
+
+var x = window.matchMedia("(max-width: 700px)")
+myFunction(x) // Call listener function at run time
+x.addListener(myFunction) // Attach listener function on state changes
+
+
+
+// 
+
+
+
 
 //var received = "{{cart|escapejs}}"
 var json_seller_order_with_status = JSON.parse(`{{json_seller_order_with_status|escapejs}}`)
@@ -553,6 +583,10 @@ for (item in cart) {
 	 }
 
   console.log(cart);
+
+
+
+
   
 </script>
 
