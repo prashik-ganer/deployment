@@ -726,13 +726,55 @@ def qrcode(request, order_id):
 
     return render(request, 'shop/qrcode.html', context)
 
-@api_view(['GET','POST'])
-@csrf_exempt
+
+
+@api_view(['GET'])
 def allOrders(request):
     all_orders = Orders.objects.all()
     print("type :: ", type(all_orders))
     print("type :: ", all_orders)
     serializer = AllOrdersSerializer(all_orders, many=True)
+    # print("All Orders : ", all_orders)
+
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def allOrders_create(request):
+    serializer = AllOrdersSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+    # print("All Orders : ", all_orders)
+
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def allOrders_update(request, pk):
+    order = Orders.objects.get(order_id=pk)
+    serializer = AllOrdersSerializer(instance=order ,data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+    # print("All Orders : ", all_orders)
+
+    return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def allOrders_delete(request, pk):
+    order = Orders.objects.get(order_id=pk)
+    order.delete()
+
+    return Response("Item was successfully deleted!")
+
+
+@api_view(['GET','PUT'])
+def orders_sellers(request, pk):
+    seller_orders = Orders.objects.filter(seller=pk)
+    print("type :: ", type(seller_orders))
+    print("type :: ", seller_orders)
+    serializer = AllOrdersSerializer(seller_orders, many=True)
     # print("All Orders : ", all_orders)
 
     return Response(serializer.data)
@@ -750,13 +792,34 @@ def allProducts(request):
 
 
 @api_view(['GET'])
-def SellerProducts(request,pk):
-    seller_products = SellerProductStock.objects.get(seller_ps=pk)
-    print("type :: ", type(seller_products))
-    print("type :: ", seller_products)
-    serializer = AllProductsStockSerializer(seller_products, many=True)
+def products_sellers(request,pk):
+    separate_product = Product.objects.filter(seller=pk)
+    print("type :: ", type(separate_product))
+    print("type :: ", separate_product)
+    serializer = AllProductsSerializer(separate_product, many=True)
     # print("All Orders : ", all_orders)
 
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+def AllSellerProductsStock(request):
+    seller_product_stock = SellerProductStock.objects.all()
+    print("type :: ", type(seller_product_stock))
+    print("type :: ", seller_product_stock)
+    serializer = AllProductsStockSerializer(seller_product_stock, many=True)
+    # print("All Orders : ", all_orders)
+
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def AllSellerProductsStock_update(request, pk):
+    product_update = Orders.objects.get(id=pk)
+    serializer = AllProductsStockSerializer(instance=product_update ,data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+    # print("All Orders : ", all_orders)
+
+    return Response(serializer.data)

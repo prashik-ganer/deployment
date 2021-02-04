@@ -201,7 +201,7 @@
 										<td><a class="btn btn-sm btn-info update-status-td" href="{% url 'updateStatus' order_item.order_id %}"><b>Update</b></a></td>
 										<td><a class="btn btn-sm btn-info seller-tracker-td" href="/seller/tracker/{{order_item.order_id}}"><b>Tracker</b></a></td>
 									</div>
-									<p class="status my-0 btn btn-danger mt-2">Status :<b><span id="orderStatus{{order_item.order_id}}"></span></b></p>
+									<p class="status my-0 btn btn-danger mt-2">Status :<b><span id="orderStatus{{order_item.order_id}}">{{order_item.status}}</span></b></p>
 								</figcaption>
 							</figure> 
 						</div> <!-- col.// -->
@@ -319,7 +319,34 @@ new_json = {}
 		if(initial_order_id == airtable_item){
 			console.log("json_seller_order_with_status[airtable_item]",json_seller_order_with_status[airtable_item])
 				// Now if we need to target any table data cell, we should add "{{order_item.order_id}}" after its id and trigger any command we want below
-				document.getElementById("orderStatus{{order_item.order_id}}").innerHTML=json_seller_order_with_status[airtable_item]
+				//document.getElementById("orderStatus{{order_item.order_id}}").innerHTML=json_seller_order_with_status[airtable_item]
+				console.log("initial_order_id", initial_order_id)
+				if(json_seller_order_with_status[airtable_item]=="Delivered"){
+
+				var url_update = `/shop/all_orders_update/${airtable_item}`
+				
+				fetch(url_update,
+				{
+				method:'POST',
+				headers:{
+					'Content-type':'application/json',
+					'X-CSRFToken':csrftoken,
+				},
+				body: JSON.stringify({
+							"seller":6,
+							"status":"Delivered"
+						})
+				})
+
+					.then(function(response){
+					return response.json();
+					})
+					.then(function(data){
+					console.log(data)
+					console.log('done')
+					})
+				}
+
 				// if(status_update="Delivered"){
 				// 	document.getElementById("orderStatus{{order_item.order_id}}").style.color="#00ff00";
 				// }

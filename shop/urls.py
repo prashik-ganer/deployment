@@ -20,14 +20,24 @@ urlpatterns = [
     path("stores/", views.stores, name="stores"),
     path("update_item/", views.updateItem, name="update_item"),
     path("qrcode/id=<int:order_id>", views.qrcode, name="qrcode"),
+    
     path("all_products/", views.allProducts, name="allProducts"),
-    path("all_seller_products/<int:pk>", views.SellerProducts, name="SellerProducts"),
+    path("all_products/<int:pk>", views.products_sellers, name="products_with_id"),
     
     
     path("all_orders/", views.allOrders, name="allOrders"),
-    # path("all_orders/<int:pk>", views.SellerOrders, name="SellerOrders"),
+    path("all_orders_create/", views.allOrders_create, name="allOrders_create"),
+    path("all_orders_update/<int:pk>", views.allOrders_update, name="allOrders_update"),
+    path("all_orders_delete/<int:pk>", views.allOrders_delete, name="allOrders_delete"),
+    
+    
+    
+    
+    path("all_orders/<int:pk>", views.orders_sellers, name="SellerOrders"),
     # path("order_create/", views.OrderCreate, name="OrderCreate"),
     # path("order_update/", views.OrderUpdate, name="OrderUpdate"),
     # path("all_orders/<int:pk>", views.OrderDetails, name="OrderDetails"),
+    path("seller_stock/", views.AllSellerProductsStock, name="OrderDetails"),
+    path("seller_stock_update/<int:pk>", views.AllSellerProductsStock_update, name="OrderDetails"),
     
 ]

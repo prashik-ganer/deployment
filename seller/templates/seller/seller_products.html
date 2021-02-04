@@ -56,7 +56,7 @@
 							<div class="aside"><img src="{{product.product_ps.image.url}}" class="border img-sm" width="max-width:130px" height="100px"></div>
 							<figcaption class="info">
 								<span class="text-muted">{{product.product_ps.product_name}}</span>
-								<p href="#" class="title my-0">Category :  {{product.product_ps.category}}</p>
+								<p href="#" class="title my-0">{{product.id}} = Category :  {{product.product_ps.category}}</p>
 							</figcaption>
 						</figure> 
 					</div> <!-- col.// -->
@@ -176,27 +176,28 @@
 
 
 <script>
+
 $("#example").change(function(){
   console.log($(this).val());
 });
 
-$.ajax({
-  type: 'GET',
-  url: 'seller/update_order_status',
-  data:{
-    'username':$("#example").val()
-  },
-  dataType:'json',
-  encode:true,
-  success:function (data){
-    if(data.is_taken){
-      console.log("USER already exists!")
-    }
-  }
+// $.ajax({
+//   type: 'GET',
+//   url: 'seller/update_order_status',
+//   data:{
+//     'username':$("#example").val()
+//   },
+//   dataType:'json',
+//   encode:true,
+//   success:function (data){
+//     if(data.is_taken){
+//       console.log("USER already exists!")
+//     }
+//   }
 
 
 
-});
+// });
 
 
 
@@ -242,10 +243,10 @@ console.log("this","{{request.user.seller.id}}")
       console.log(data)
       
     }) {% endcomment %}
-
-      minus = document.getElementById("button-minus{{i.id}}")
+{% for i in seller_product_stock %}
+      minus = document.getElementById("button-minus{{i.id}}").innerHTML
       console.log("minus",minus)
-      
+      //console.log("i",i.id)
         $('#button-minus{{i.id}}').on('click', function(){
           var idstr = this.id.toString();
           //console.log("idstr : ", idstr)
@@ -253,8 +254,32 @@ console.log("this","{{request.user.seller.id}}")
           stock_count = document.getElementById('count{{i.id}}').innerHTML
           stock_count = stock_count - 1;
           console.log("stock_count",stock_count)
-          document.getElementById('count{{i.id}}').innerHTML = stock_count
+          var stock = document.getElementById('count{{i.id}}').innerHTML = stock_count
           console.log("{{i.id}}")
+          
+
+          //  var url_update = `/shop/seller_stock_update/${idstr}`
+          //     //var title = document.getElementById('title').value
+              
+          // fetch(url_update,
+          // {
+          // method:'POST',
+          // headers:{
+          //   'Content-type':'application/json',
+          //   'X-CSRFToken':csrftoken,
+          // },
+          // body: JSON.stringify({
+          //               "stock_count": stock_count
+          //           })
+          //   })
+
+          //       .then(function(response){
+          //         return response.json();
+          //       })
+          //       .then(function(data){
+          //         console.log(data)
+          //         console.log('done')
+          //       })
           // $('#count{{i.id}}').val((seller_products_stock_json["{{i.id}}"]['stock_count']));
 
           // seller_products_stock_json["{{i.id}}"]['stock_count'] = seller_products_stock_json["{{i.id}}"]['stock_count'] - 1
@@ -277,6 +302,7 @@ console.log("this","{{request.user.seller.id}}")
         })
 //  console.log(seller_products_stock_json) 
     //{% for i in seller_product_stock %}
+{% endfor %}
 
 
 
