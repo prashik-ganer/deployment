@@ -791,15 +791,17 @@ def allProducts(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
-def products_sellers(request,pk):
-    separate_product = Product.objects.filter(seller=pk)
-    print("type :: ", type(separate_product))
-    print("type :: ", separate_product)
-    serializer = AllProductsSerializer(separate_product, many=True)
+@api_view(['POST'])
+def allProducts_update(request, pk):
+    product = Orders.objects.get(product_id=pk)
+    serializer = AllOrdersSerializer(instance=product ,data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
     # print("All Orders : ", all_orders)
 
     return Response(serializer.data)
+
 
 
 @api_view(['GET'])
@@ -815,8 +817,8 @@ def AllSellerProductsStock(request):
 
 @api_view(['POST'])
 def AllSellerProductsStock_update(request, pk):
-    product_update = Orders.objects.get(id=pk)
-    serializer = AllProductsStockSerializer(instance=product_update ,data=request.data)
+    stock_product_id = SellerProductStock.objects.get(id=pk)
+    serializer = AllProductsStockSerializer(instance=stock_product_id ,data=request.data)
 
     if serializer.is_valid():
         serializer.save()

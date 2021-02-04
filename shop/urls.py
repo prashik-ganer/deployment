@@ -22,7 +22,7 @@ urlpatterns = [
     path("qrcode/id=<int:order_id>", views.qrcode, name="qrcode"),
     
     path("all_products/", views.allProducts, name="allProducts"),
-    path("all_products/<int:pk>", views.products_sellers, name="products_with_id"),
+    path("all_products/<int:pk>", views.allProducts_update, name="products_with_id"),
     
     
     path("all_orders/", views.allOrders, name="allOrders"),
