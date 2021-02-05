@@ -94,14 +94,14 @@ class Customer_QR(models.Model):
     def __str__(self):
         return str(self.customer.name)
 
-class SellerProductStock(models.Model):
-    seller_ps = models.ForeignKey(Seller, null=True, on_delete=models.SET_NULL)
-    product_ps = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
-    stock_count = models.IntegerField(default=0)
+# class SellerProductStock(models.Model):
+#     seller_ps = models.ForeignKey(Seller, null=True, on_delete=models.SET_NULL)
+#     product_ps = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
+#     stock_count = models.IntegerField(default=0)
 
 
-    def __str__(self):
-        return str(self.seller_ps) + " - " + (self.product_ps.product_name)
+#     def __str__(self):
+#         return str(self.seller_ps) + " - " + (self.product_ps.product_name)
 
 
 # class Order_qr(models.Model):

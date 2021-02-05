@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
-from .models import Product, Contact, Orders, OrderUpdate, Cart, SellerProductStock
+from .models import Product, Contact, Orders, OrderUpdate, Cart
 from math import ceil
 import json
 import pyqrcode
@@ -24,7 +24,7 @@ import json
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import AllOrdersSerializer, AllProductsSerializer, AllProductsStockSerializer
+from .serializers import AllOrdersSerializer, AllProductsSerializer
 
 # import cv2
 # import numpy as np
@@ -804,24 +804,24 @@ def allProducts_update(request, pk):
 
 
 
-@api_view(['GET'])
-def AllSellerProductsStock(request):
-    seller_product_stock = SellerProductStock.objects.all()
-    print("type :: ", type(seller_product_stock))
-    print("type :: ", seller_product_stock)
-    serializer = AllProductsStockSerializer(seller_product_stock, many=True)
-    # print("All Orders : ", all_orders)
+# @api_view(['GET'])
+# def AllSellerProductsStock(request):
+#     seller_product_stock = SellerProductStock.objects.all()
+#     print("type :: ", type(seller_product_stock))
+#     print("type :: ", seller_product_stock)
+#     serializer = AllProductsStockSerializer(seller_product_stock, many=True)
+#     # print("All Orders : ", all_orders)
 
-    return Response(serializer.data)
+#     return Response(serializer.data)
 
 
-@api_view(['POST'])
-def AllSellerProductsStock_update(request, pk):
-    stock_product_id = SellerProductStock.objects.get(id=pk)
-    serializer = AllProductsStockSerializer(instance=stock_product_id ,data=request.data)
+# @api_view(['POST'])
+# def AllSellerProductsStock_update(request, pk):
+#     stock_product_id = SellerProductStock.objects.get(id=pk)
+#     serializer = AllProductsStockSerializer(instance=stock_product_id ,data=request.data)
 
-    if serializer.is_valid():
-        serializer.save()
-    # print("All Orders : ", all_orders)
+#     if serializer.is_valid():
+#         serializer.save()
+#     # print("All Orders : ", all_orders)
 
-    return Response(serializer.data)
+#     return Response(serializer.data)

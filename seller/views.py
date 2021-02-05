@@ -7,7 +7,7 @@ from accounts.decorators import unauthenticated_user, allowed_users, admin_only
 
 # Extra implemented
 from .forms import OrderStatusForm, OrderUpdatesForm
-from shop.models import Orders, Product, OrderUpdate, Customer_QR, SellerProductStock
+from shop.models import Orders, Product, OrderUpdate, Customer_QR
 from accounts.models import Seller, Order, Customer
 import json
 import pyqrcode
@@ -186,13 +186,14 @@ def products(request):
     products = Product.objects.filter(seller=seller)
     print(products)
 
-    seller_product_stock = SellerProductStock.objects.filter(seller_ps=seller)
-    print("seller_product_stock",seller_product_stock)
+    # seller_product_stock = SellerProductStock.objects.filter(seller_ps=seller)
+    # print("seller_product_stock",seller_product_stock)
 
     # url = '/shop/seller_products/'
     # response = requests.get(url, headers=get_headers)
 
-    context = {'products':products, 'seller_product_stock':seller_product_stock}
+    context = {'products':products}
+    # context = {'products':products, 'seller_product_stock':seller_product_stock}
     # return HttpResponse("Products!")
     return render(request, 'seller/seller_products.html', context)
 
