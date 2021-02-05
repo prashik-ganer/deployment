@@ -92,7 +92,7 @@ def index(request):
             cart_json.cart_items = '{}'
             cart = cart_json.cart_items
             user_cart, created = Cart.objects.get_or_create(customer=customer, cart_items=cart)
-            params1 = {'allProds': allProds, 'user_cart':user_cart, 'cart': cart, 'product':prod}
+            params1 = {'allProds': allProds, 'user_cart':user_cart, 'cart': cart}
             cart_json.delete()
             return render(request, 'shop/index.html', params1)
 
@@ -104,7 +104,8 @@ def index(request):
             cart = customer_cart_item.replace("\'", "\"")
             print("replaced : ", cart)
             user_cart, created = Cart.objects.get_or_create(customer=customer, cart_items=customer_cart_item)
-            params1 = {'allProds': allProds, 'user_cart':user_cart, 'cart': cart, 'product':prod}
+            params1 = {'allProds': allProds, 'user_cart':user_cart, 'cart': cart}
+            # params1 = {'allProds': allProds, 'user_cart':user_cart, 'cart': cart, 'product':prod}
             cart_json.delete()
             return render(request, 'shop/index.html', params1)
 
