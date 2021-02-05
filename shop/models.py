@@ -8,6 +8,7 @@ from cloudinary.models import CloudinaryField
 class Product(models.Model):
     seller = models.ManyToManyField(Seller)
     product_id = models.AutoField
+    barcode_number = models.CharField(max_length=30, default="")
     product_name = models.CharField(max_length=255)
     category = models.CharField(max_length=50, default="")
     subcategory = models.CharField(max_length=50, default="")
