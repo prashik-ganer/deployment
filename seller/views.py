@@ -42,7 +42,7 @@ def seller_profile(request, seller_profile):
     
     thank = True
     seller = Seller.objects.get(id=seller_profile)
-    # print(seller)
+    print("seller", seller.id)
     order = seller.orders_set.all()
     seller_email = seller.seller_email
     seller_phone = seller.seller_phone
@@ -154,7 +154,7 @@ def seller_profile(request, seller_profile):
     
 
 
-    context={'replaced_New':dicts2,'order':order,'seller_email':seller_email, 'seller_phone':seller_phone, 'order_count':order_count, 'delivered':delivered, 'pending': pending,
+    context={'seller':seller,'replaced_New':dicts2,'order':order,'seller_email':seller_email, 'seller_phone':seller_phone, 'order_count':order_count, 'delivered':delivered, 'pending': pending,
             'myFilter':myFilter, 'json_seller_order_with_status':json_seller_order_with_status, 'thank':thank}
 
     return render(request, 'seller/seller_profile.html', context)

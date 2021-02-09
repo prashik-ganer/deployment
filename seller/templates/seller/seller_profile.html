@@ -363,7 +363,7 @@ new_json = {}
 					'X-CSRFToken':csrftoken,
 				},
 				body: JSON.stringify({
-							"seller":6,
+							"seller":"{{seller.id}}",
 							"status":"Delivered"
 						})
 				})
